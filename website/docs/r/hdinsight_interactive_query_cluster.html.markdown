@@ -92,9 +92,13 @@ The following arguments are supported:
 
 * `component_version` - (Required) A `component_version` block as defined below.
 
+* `encryption_in_transit_enabled` - (Optional) Whether encryption in transit is enabled for this Cluster. Changing this forces a new resource to be created.
+
 * `gateway` - (Required) A `gateway` block as defined below.
 
 * `roles` - (Required) A `roles` block as defined below.
+
+* `network` - (Optional) A `network` block as defined below.
 
 * `storage_account` - (Required) One or more `storage_account` block as defined below.
 
@@ -112,6 +116,8 @@ The following arguments are supported:
 * `metastores` - (Optional) A `metastores` block as defined below.
 
 * `monitor` - (Optional) A `monitor` block as defined below.
+
+* `security_profile` - (Optional) A `security_profile` block as defined below.
 
 ---
 
@@ -162,6 +168,16 @@ A `roles` block supports the following:
 * `worker_node` - (Required) A `worker_node` block as defined below.
 
 * `zookeeper_node` - (Required) A `zookeeper_node` block as defined below.
+
+---
+
+A `network` block supports the following:
+
+* `connection_direction` - (Optional) The direction of the resource provider connection. Possible values include `Inbound` or `Outbound`. Defaults to `Inbound`. Changing this forces a new resource to be created.
+
+-> **NOTE:** To enabled the private link the `connection_direction` must be set to `Outbound`.
+
+* `private_link_enabled` - (Optional) Is the private link enabled? Possible values include `True` or `False`. Defaults to `False`. Changing this forces a new resource to be created.
 
 ---
 
@@ -218,6 +234,8 @@ A `worker_node` block supports the following:
 * `target_instance_count` - (Optional) The number of instances which should be run for the Worker Nodes.
 
 * `virtual_network_id` - (Optional) The ID of the Virtual Network where the Worker Nodes should be provisioned within. Changing this forces a new resource to be created.
+
+* `autoscale` - (Optional) A `autoscale` block as defined below.
 
 ---
 
@@ -293,6 +311,60 @@ A `monitor` block supports the following:
 * `log_analytics_workspace_id` - (Required) The Operations Management Suite (OMS) workspace ID.
 
 * `primary_key` - (Required) The Operations Management Suite (OMS) workspace key.
+
+---
+
+An `autoscale` block supports the following:
+
+* `capacity` - (Optional) A `capacity` block as defined below.
+
+* `recurrence` - (Optional) A `recurrence` block as defined below.
+
+-> **NOTE:** Either a `capacity` or `recurrence` block must be specified - but not both.
+
+---
+
+A `capacity` block supports the following:
+
+* `max_instance_count` - (Required) The maximum number of worker nodes to autoscale to based on the cluster's activity.
+
+* `min_instance_count` - (Required) The minimum number of worker nodes to autoscale to based on the cluster's activity.
+
+---
+
+A `recurrence` block supports the following:
+
+* `schedule` - (Required) A list of `schedule` blocks as defined below.
+
+* `timezone` - (Required) The time zone for the autoscale schedule times.
+
+---
+
+A `schedule` block supports the following:
+
+* `days` - (Required) The days of the week to perform autoscale.
+
+* `target_instance_count` - (Required) The number of worker nodes to autoscale at the specified time.
+
+* `time` - (Required) The time of day to perform the autoscale in 24hour format.
+
+---
+
+A `security_profile` block supports the following:
+
+* `aadds_resource_id` - (Required) The resource ID of the Azure Active Directory Domain Service. Changing this forces a new resource to be created.
+
+* `domain_name` - (Required) The name of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `domain_username` - (Required) The username of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `domain_user_password` - (Required) The user password of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `ldaps_urls` - (Required) A list of the LDAPS URLs to communicate with the Azure Active Directory. Changing this forces a new resource to be created.
+
+* `msi_resource_id` - (Required) The User Assigned Identity for the HDInsight Cluster. Changing this forces a new resource to be created.
+
+* `cluster_users_group_dns` - (Optional) A list of the distinguished names for the cluster user groups. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

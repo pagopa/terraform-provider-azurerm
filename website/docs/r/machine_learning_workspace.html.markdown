@@ -74,6 +74,8 @@ The following arguments are supported:
 
 * `key_vault_id` - (Required) The ID of key vault associated with this Machine Learning Workspace. Changing this forces a new resource to be created.
 
+-> NOTE: Azure Machine Learning Workspace will turn on purge protection on the key vault if it is not enabled.
+
 * `storage_account_id` - (Required) The ID of the Storage Account associated with this Machine Learning Workspace. Changing this forces a new resource to be created.
 
 -> **NOTE:** The `account_tier` cannot be `Premium` in order to associate the Storage Account to this Machine Learning Workspace.
@@ -84,6 +86,10 @@ The following arguments are supported:
 
 -> **NOTE:** The `admin_enabled` should be `true` in order to associate the Container Registry to this Machine Learning Workspace.
 
+* `public_network_access_enabled` - (Optional) Enable public access when this Machine Learning Workspace is behind VNet.
+
+* `image_build_compute_name` - (Optional) The compute name for image build of the Machine Learning Workspace.
+
 * `description` - (Optional) The description of this Machine Learning Workspace.
 
 * `discovery_url` - (Optional) The URL for the discovery service to identify regional endpoints for machine learning experimentation services.
@@ -92,7 +98,7 @@ The following arguments are supported:
 
 * `high_business_impact` - (Optional) Flag to signal High Business Impact (HBI) data in the workspace and reduce diagnostic data collected by the service
 
-* `sku_name` - (Optional) SKU/edition of the Machine Learning Workspace, possible values are `Basic` for a basic workspace or `Enterprise` for a feature rich workspace. Defaults to `Basic`.
+* `sku_name` - (Optional) SKU/edition of the Machine Learning Workspace, possible values are `Basic`. Defaults to `Basic`.
 
 * `tags` - (Optional) A mapping of tags to assign to the resource. Changing this forces a new resource to be created.
 
@@ -107,6 +113,8 @@ An `identity` block supports the following:
 The following attributes are exported:
 
 * `id` - The ID of the Machine Learning Workspace.
+
+* `discovery_url` - The url for the discovery service to identify regional endpoints for machine learning experimentation services.
 
 ---
 

@@ -33,7 +33,7 @@ resource "azurerm_eventhub_namespace" "secondary" {
 }
 
 resource "azurerm_eventhub_namespace_disaster_recovery_config" "example" {
-  name                 = "replicate-evenhub"
+  name                 = "replicate-eventhub"
   resource_group_name  = azurerm_resource_group.example.name
   namespace_name       = azurerm_eventhub_namespace.primary.name
   partner_namespace_id = azurerm_eventhub_namespace.secondary.id
@@ -51,8 +51,6 @@ The following arguments are supported:
 * `resource_group_name` - (Required) The name of the resource group in which the Disaster Recovery Config exists. Changing this forces a new resource to be created.
 
 * `partner_namespace_id` - (Optional) The ID of the EventHub Namespace to replicate to.
-
-* `alternate_name` - (Optional) An alternate name to use when the Disaster Recovery Config's name is the same as the replicated namespace's name.
 
 * `wait_for_replication` - (Optional) Should the resource wait for replication upon creation? Defaults to `false`.
 

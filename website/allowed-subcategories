@@ -1,4 +1,5 @@
 API Management
+Active Directory Domain Services
 Advisor
 Analysis Services
 App Configuration
@@ -15,7 +16,9 @@ Blueprints
 Bot
 CDN
 Cognitive Services
+Communication
 Compute
+Consumption
 Container
 CosmosDB (DocumentDB)
 Cost Management
@@ -25,6 +28,7 @@ Data Explorer
 Data Factory
 Data Lake
 Data Share
+DataProtection
 Database
 Database Migration
 Databox Edge
@@ -58,6 +62,7 @@ Policy
 Portal
 PowerBI
 Private DNS
+Purview
 Recovery Services
 Redis
 Redis Enterprise
@@ -73,3 +78,4 @@ Synapse
 Template
 Time Series Insights
 VMware (AVS)
+Video Analyzer

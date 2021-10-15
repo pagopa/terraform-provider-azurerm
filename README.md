@@ -1,10 +1,14 @@
+<a href="https://terraform.io">
+    <img src=".github/tf.png" alt="Terraform logo" title="Terraform" align="left" height="50" />
+</a>
+
 # Terraform Provider for Azure (Resource Manager)
 
-Version 2.x of the AzureRM Provider requires Terraform 0.12.x and later.
+Version 2.x of the AzureRM Provider requires Terraform 0.12.x and later, but 1.0 is recommended.
 
 * [Terraform Website](https://www.terraform.io)
-* [AzureRM Provider Documentation](https://www.terraform.io/docs/providers/azurerm/index.html)
-* [AzureRM Provider Usage Examples](https://github.com/terraform-providers/terraform-provider-azurerm/tree/master/examples)
+* [AzureRM Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+* [AzureRM Provider Usage Examples](https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples)
 * [Slack Workspace for Contributors](https://terraform-azure.slack.com) ([Request Invite](https://join.slack.com/t/terraform-azure/shared_invite/enQtNDMzNjQ5NzcxMDc3LWNiY2ZhNThhNDgzNmY0MTM0N2MwZjE4ZGU0MjcxYjUyMzRmN2E5NjZhZmQ0ZTA1OTExMGNjYzA4ZDkwZDYxNDE))
 
 ## Usage Example
@@ -18,7 +22,7 @@ terraform {
   required_providers {
     azurerm = {
       source = "hashicorp/azurerm"
-      version = "=2.46.0"
+      version = "=2.71.0"
     }
   }
 }
@@ -52,11 +56,11 @@ resource "azurerm_virtual_network" "test" {
 }
 ```
 
-Further [usage documentation is available on the Terraform website](https://www.terraform.io/docs/providers/azurerm/index.html).
+Further [usage documentation is available on the Terraform website](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs).
 
 ## Developer Requirements
 
-* [Terraform](https://www.terraform.io/downloads.html) version 0.12.x +
+* [Terraform](https://www.terraform.io/downloads.html) version 0.12.x + (but 1.x is recommended)
 * [Go](https://golang.org/doc/install) version 1.16.x (to build the provider plugin)
 
 ### On Windows
@@ -75,18 +79,18 @@ choco install make golang terraform -y
 refreshenv
 ```
 
-You must run  `Developing the Provider` commands in `bash` because `sh` scrips are invoked as part of these.
+You must run `Developing the Provider` commands in `bash` because `sh` scrips are invoked as part of these.
 
 ## Developing the Provider
 
 If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.16+ is **required**). You'll also need to correctly setup a [GOPATH](http://golang.org/doc/code.html#GOPATH), as well as adding `$GOPATH/bin` to your `$PATH`.
 
-First clone the repository to: `$GOPATH/src/github.com/terraform-providers/terraform-provider-azurerm`
+First clone the repository to: `$GOPATH/src/github.com/hashicorp/terraform-provider-azurerm`
 
 ```sh
-$ mkdir -p $GOPATH/src/github.com/terraform-providers; cd $GOPATH/src/github.com/terraform-providers
-$ git clone git@github.com:terraform-providers/terraform-provider-azurerm
-$ cd $GOPATH/src/github.com/terraform-providers/terraform-provider-azurerm
+$ mkdir -p $GOPATH/src/github.com/hashicorp; cd $GOPATH/src/github.com/hashicorp
+$ git clone git@github.com:hashicorp/terraform-provider-azurerm
+$ cd $GOPATH/src/github.com/hashicorp/terraform-provider-azurerm
 ```
 
 Once inside the provider directory, you can run `make tools` to install the dependent tooling required to compile the provider.
@@ -115,8 +119,11 @@ $ make test
 The majority of tests in the provider are `Acceptance Tests` - which provisions real resources in Azure. It's possible to run the entire acceptance test suite by running `make testacc` - however it's likely you'll want to run a subset, which you can do using a prefix, by running:
 
 ```sh
-make acctests SERVICE='resource' TESTARGS='-run=TestAccAzureRMResourceGroup' TESTTIMEOUT='60m'
+make acctests SERVICE='<service>' TESTARGS='-run=<nameOfTheTest>' TESTTIMEOUT='60m'
 ```
+
+* `<service>` is the name of the folder which contains the file with the test(s) you want to run. The available folders are found in `azurerm/internal/services/`. So examples are `mssql`, `compute` or `mariadb`
+* `<nameOfTheTest>` should be self-explanatory as it is the name of the test you want to run. An example could be `TestAccMsSqlServerExtendedAuditingPolicy_basic`. Since `-run` can be used with regular expressions you can use it to specify multiple tests like in `TestAccMsSqlServerExtendedAuditingPolicy_` to run all tests that match that expression
 
 The following Environment Variables must be set in your shell prior to running acceptance tests:
 
@@ -162,7 +169,7 @@ provider_installation {
 
 ## Developer: Generating Resource ID Formatters, Parsers and Validators
 
-You can generate a Resource ID Formatter, Parser and Validator by adding the following line to a `resourceids.go` within each Service Package (for example `./azurerm/internal/services/someservice/resourceids.go`):
+You can generate a Resource ID Formatter, Parser and Validator by adding the following line to a `resourceids.go` within each Service Package (for example `./internal/services/someservice/resourceids.go`):
 
 ```go
 //go:generate go run ../../tools/generator-resource-id/main.go -path=./ -name=Server -id=/subscriptions/12345678-1234-9876-4563-123456789012/resourceGroups/resGroup1/providers/Microsoft.AnalysisServices/servers/Server1

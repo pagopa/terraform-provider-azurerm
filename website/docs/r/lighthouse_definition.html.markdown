@@ -22,6 +22,7 @@ resource "azurerm_lighthouse_definition" "example" {
   name               = "Sample definition"
   description        = "This is a lighthouse definition created via Terraform"
   managing_tenant_id = "00000000-0000-0000-0000-000000000000"
+  scope              = "/subscriptions/00000000-0000-0000-0000-000000000000"
 
   authorization {
     principal_id           = "00000000-0000-0000-0000-000000000000"
@@ -37,13 +38,17 @@ The following arguments are supported:
 
 * `lighthouse_definition_id` - (Optional) A unique UUID/GUID which identifies this lighthouse definition - one will be generated if not specified. Changing this forces a new resource to be created.
 
-* `name` - (Required) The name of the Lighthouse Definition.
+* `name` - (Required) The name of the Lighthouse Definition. Changing this forces a new resource to be created.
 
-* `managing_tenant_id` - (Required) The ID of the managing tenant.
+* `managing_tenant_id` - (Required) The ID of the managing tenant. Changing this forces a new resource to be created.
 
+* `scope` - (Required) The ID of the managed subscription. Changing this forces a new resource to be created.
+
+* `authorization` - (Required) An authorization block as defined below.
+  
 * `description` - (Optional) A description of the Lighthouse Definition.
 
-* `authorization` - (Required) An authorization block as defined below.  
+* `plan` - (Optional) A `plan` block as defined below.
 
 ---
 
@@ -51,9 +56,23 @@ An `authorization` block supports the following:
 
 * `principal_id` - (Required) Principal ID of the security group/service principal/user that would be assigned permissions to the projected subscription.
 
+* `role_definition_id` - (Required) The role definition identifier. This role will define the permissions that are granted to the principal. This cannot be an `Owner` role.
+
+* `delegated_role_definition_ids` - (Optional) The set of role definition ids which define all the permissions that the principal id can assign.
+  
 * `principal_display_name` - (Optional) The display name of the security group/service principal/user that would be assigned permissions to the projected subscription.
 
-* `role_definition_id` - (Required) The role definition identifier. This role will define the permissions that are granted to the principal. This cannot be an `Owner` role.
+---
+
+A `plan` block supports the following:
+
+* `name` - (Required) The plan name of the marketplace offer.
+
+* `publisher` - (Required) The publisher ID of the plan.
+
+* `product` - (Required) The product code of the plan.
+
+* `version` - (Required) The version of the plan.
 
 ## Attributes Reference
 

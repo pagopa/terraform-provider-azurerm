@@ -114,6 +114,8 @@ The following arguments are supported:
 
 * `monitor` - (Optional) A `monitor` block as defined below.
 
+* `security_profile` - (Optional) A `security_profile` block as defined below.
+
 ---
 
 A `component_version` block supports the following:
@@ -216,6 +218,8 @@ A `worker_node` block supports the following:
 
 * `virtual_network_id` - (Optional) The ID of the Virtual Network where the Worker Nodes should be provisioned within. Changing this forces a new resource to be created.
 
+* `autoscale` - (Optional) A `autoscale` block as defined below.
+
 ---
 
 A `zookeeper_node` block supports the following:
@@ -290,6 +294,50 @@ A `monitor` block supports the following:
 * `log_analytics_workspace_id` - (Required) The Operations Management Suite (OMS) workspace ID.
 
 * `primary_key` - (Required) The Operations Management Suite (OMS) workspace key.
+
+---
+
+An `autoscale` block supports the following:
+
+* `recurrence` - (Required) A `recurrence` block as defined below.
+
+-> **NOTE:** Capacity based autoscaling isn't supported to HBase clusters.
+
+---
+
+A `recurrence` block supports the following:
+
+* `schedule` - (Required) A list of `schedule` blocks as defined below.
+
+* `timezone` - (Required) The time zone for the autoscale schedule times.
+
+---
+
+A `schedule` block supports the following:
+
+* `days` - (Required) The days of the week to perform autoscale.
+
+* `target_instance_count` - (Required) The number of worker nodes to autoscale at the specified time.
+
+* `time` - (Required) The time of day to perform the autoscale in 24hour format.
+
+---
+
+A `security_profile` block supports the following:
+
+* `aadds_resource_id` - (Required) The resource ID of the Azure Active Directory Domain Service. Changing this forces a new resource to be created.
+
+* `domain_name` - (Required) The name of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `domain_username` - (Required) The username of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `domain_user_password` - (Required) The user password of the Azure Active Directory Domain. Changing this forces a new resource to be created.
+
+* `ldaps_urls` - (Required) A list of the LDAPS URLs to communicate with the Azure Active Directory. Changing this forces a new resource to be created.
+
+* `msi_resource_id` - (Required) The User Assigned Identity for the HDInsight Cluster. Changing this forces a new resource to be created.
+
+* `cluster_users_group_dns` - (Optional) A list of the distinguished names for the cluster user groups. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

@@ -50,6 +50,8 @@ The following attributes are exported:
 
 * `site_credential` - A `site_credential` block as defined below, which contains the site-level credentials used to publish to this App Service.
 
+* `client_cert_mode` - The mode of the Function App's client certificates requirement for incoming requests.
+
 * `os_type` - A string indicating the Operating System type for this function app.
 
 ~> **NOTE:** This value will be `linux` for Linux Derivatives, or an empty string for Windows. 
@@ -112,7 +114,13 @@ A `site_config` block exports the following:
 
 * `always_on` - Is the app loaded at all times?
 
+* `app_scale_limit` - The number of workers this function app can scale out to. Only applicable to apps on the Consumption and Premium plan.
+
 * `cors` - A `cors` block as defined above.
+
+* `dotnet_framework_version` - The version of the .net framework's CLR used in this App Service.
+
+* `elastic_instance_minimum` - The number of minimum instances for this function app. Only applicable to apps on the Premium plan.
 
 * `http2_enabled` - Is HTTP2 Enabled on this App Service?
 
@@ -120,7 +128,11 @@ A `site_config` block exports the following:
 
 * `ip_restriction` - One or more `ip_restriction` blocks as defined above.
 
+* `java_version` - Java version hosted by the function app in Azure.
+
 * `pre_warmed_instance_count` - The number of pre-warmed instances for this function app. Only applicable to apps on the Premium plan.
+
+* `runtime_scale_monitoring_enabled` - Is Runtime Scale Monitoring Enabled on this function app?
 
 * `scm_use_main_ip_restriction` - IP security restrictions for scm to use main.  
 
@@ -133,6 +145,8 @@ A `site_config` block exports the following:
 * `scm_type` - The type of Source Control enabled for this App Service.
 
 * `use_32_bit_worker_process` - Does the App Service run in 32 bit mode, rather than 64 bit mode?
+
+* `vnet_route_all_enabled` - (Optional) Should all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied?
 
 * `websockets_enabled` - Are WebSockets enabled for this App Service?
 

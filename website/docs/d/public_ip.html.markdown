@@ -102,12 +102,14 @@ output "public_ip_address" {
 
 ## Attributes Reference
 
+* `id` - The ID of the Public IP address.
 * `domain_name_label` - The label for the Domain Name.
 * `idle_timeout_in_minutes` - Specifies the timeout for the TCP idle connection.
 * `fqdn` - Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
 * `ip_address` - The IP address value that was allocated.
 * `ip_version` - The IP version being used, for example `IPv4` or `IPv6`.
 * `sku` - The SKU of the Public IP.
+* `ip_tags` - A mapping of tags to assigned to the resource.
 * `tags` - A mapping of tags to assigned to the resource.
 
 ## Timeouts

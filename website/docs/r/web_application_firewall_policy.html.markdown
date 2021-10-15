@@ -198,7 +198,7 @@ The `managed_rule_set` block supports the following:
 
 * `type` - (Optional) The rule set type. Possible values: `Microsoft_BotManagerRuleSet` and `OWASP`.
 
-* `version` - (Required) The rule set version. Possible values: `0.1`, `1.0`, `2.2.9`, `3.0` and `3.1`.
+* `version` - (Required) The rule set version. Possible values: `0.1`, `1.0`, `2.2.9`, `3.0`, `3.1` and `3.2`.
 
 * `rule_group_override` - (Optional) One or more `rule_group_override` block defined below.
 
@@ -215,6 +215,10 @@ The `rule_group_override` block supports the following:
 The following attributes are exported:
 
 * `id` - The ID of the Web Application Firewall Policy.
+
+* `http_listener_ids` - A list of HTTP Listener IDs from an `azurerm_application_gateway`.
+
+* `path_based_rule_ids` - A list of URL Path Map Path Rule IDs from an `azurerm_application_gateway`.
 
 ## Timeouts
 

@@ -194,7 +194,7 @@ The following arguments are supported:
 
 * `default_documents` - (Optional) The ordering of default documents to load, if an address isn't specified.
 
-* `dotnet_framework_version` - (Optional) The version of the .net framework's CLR used in this App Service Slot. Possible values are `v2.0` (which will use the latest version of the .net framework for the .net CLR v2 - currently `.net 3.5`) and `v4.0` (which corresponds to the latest version of the .net CLR v4 - which at the time of writing is `.net 4.7.1`). [For more information on which .net CLR version to use based on the .net framework you're targeting - please see this table](https://en.wikipedia.org/wiki/.NET_Framework_version_history#Overview). Defaults to `v4.0`.
+* `dotnet_framework_version` - (Optional) The version of the .net framework's CLR used in this App Service Slot. Possible values are `v2.0` (which will use the latest version of the .net framework for the .net CLR v2 - currently `.net 3.5`), `v4.0` (which corresponds to the latest version of the .net CLR v4 - which at the time of writing is `.net 4.7.1`), `v5.0` and `v6.0`. [For more information on which .net CLR version to use based on the .net framework you're targeting - please see this table](https://en.wikipedia.org/wiki/.NET_Framework_version_history#Overview). Defaults to `v4.0`.
 
 * `http2_enabled` - (Optional) Is HTTP2 Enabled on this App Service? Defaults to `false`.
 
@@ -230,11 +230,15 @@ The following arguments are supported:
 
 ~> **Note:** Deployment Slots are not supported in the `Free`, `Shared`, or `Basic` App Service Plans.
 
-* `virtual_network_name` - (Optional) The name of the Virtual Network which this App Service Slot should be attached to.
-
 * `websockets_enabled` - (Optional) Should WebSockets be enabled?
 
 * `auto_swap_slot_name` - (Optional) The name of the slot to automatically swap to during deployment
+
+* `acr_use_managed_identity_credentials` - (Optional) Are Managed Identity Credential used for Azure Container Registry pull
+
+* `acr_user_managed_identity_client_id` - (Optional) If using User Managed Identity, the User Managed Identity Client Id
+
+~> **NOTE:** When using User Managed Identity with Azure Container Registry the Identity will need to have the [ACRPull role assigned](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication-managed-identity#example-1-access-with-a-user-assigned-identity) 
 
 ---
 
@@ -326,6 +330,21 @@ A `ip_restriction` block supports the following:
 
 * `action` - (Optional) Does this restriction `Allow` or `Deny` access for this IP range. Defaults to `Allow`.  
 
+* `headers` - (Optional) The headers for this specific `ip_restriction` as defined below. The http header filters are evaluated after the rule itself and both conditions must be true for the rule to apply.
+
+---
+
+A `headers` block supports the following:
+
+* `x_azure_fdid` - (Optional) A list of allowed Azure FrontDoor IDs in UUID notation with a maximum of 8.
+
+* `x_fd_health_probe` - (Optional) A list to allow the Azure FrontDoor health probe header. Only allowed value is "1".
+
+* `x_forwarded_for` - (Optional) A list of allowed 'X-Forwarded-For' IPs in CIDR notation with a maximum of 8
+
+* `x_forwarded_host` - (Optional) A list of allowed 'X-Forwarded-Host' domains with a maximum of 8.
+
+
 ---
 
 A `microsoft` block supports the following:
@@ -408,7 +427,19 @@ The following attributes are exported:
 
 * `default_site_hostname` - The Default Hostname associated with the App Service Slot - such as `mysite.azurewebsites.net`
 
-* `site_credential` - A `site_credential` block as defined below, which contains the site-level credentials used to publish to this App Service.
+* `site_credential` - A `site_credential` block as defined below, which contains the site-level credentials used to publish to this App Service slot.
+
+* `identity` - An `identity` block as defined below, which contains the Managed Service Identity information for this App Service slot.
+
+---
+
+A `identity` block exports the following:
+
+* `principal_id` - The Principal ID for the Service Principal associated with the Managed Service Identity of this App Service slot.
+
+* `tenant_id` - The Tenant ID for the Service Principal associated with the Managed Service Identity of this App Service slot.
+
+-> You can access the Principal ID via `azurerm_app_service_slot.example.identity.0.principal_id` and the Tenant ID via `azurerm_app_service_slot.example.identity.0.tenant_id`
 
 ---
 
